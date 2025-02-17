@@ -9,15 +9,13 @@ typedef struct doubleLinkedList_t {
 	struct doubleLinkedList_t* p_Next;	// 0x18
 }node;
 
-// insertion
-// deletion
-// searching
 
 struct DLLManager_t {
 	node* pHead;
 	int size;
 };
 
+// =====================FN DECLERATIONS==========================
 void __fastcall initialize		(struct DLLManager_t* obj);
 bool __fastcall insertStart		(struct DLLManager_t* obj, int data);
 bool __fastcall insertEnd		(struct DLLManager_t* obj, int data);
@@ -26,6 +24,7 @@ void __fastcall display			(struct DLLManager_t* obj);
 bool __fastcall deleteAtIndex	(struct DLLManager_t* obj, int index);
 bool __fastcall deleteStart		(struct DLLManager_t* obj);
 bool __fastcall deleteEnd		(struct DLLManager_t* obj);
+bool __fastcall searchElement	(struct DLLManager_t* obj, int data, int* index);
 
 int main(void) {
 	struct DLLManager_t a;
@@ -39,10 +38,14 @@ int main(void) {
 	insertEnd(&a, 6);
 	display(&a);
 
+	int bb;
+	searchElement(&a,2, &bb);
+	printf("%d\n\n", bb);
+
 	return 0;
 }
 
-
+// =====================FN DEFINITIONS===========================
 void __fastcall display(struct DLLManager_t* obj) {
 	node* temp = obj->pHead;
 	while (temp->p_Next != obj->pHead) {
@@ -50,6 +53,28 @@ void __fastcall display(struct DLLManager_t* obj) {
 		temp = temp->p_Next;
 	}
 	printf("%d\n", temp->data);
+}
+
+
+bool __fastcall searchElement(struct DLLManager_t* obj, int data, int* index) {
+
+	node* temp = obj->pHead;
+	if (temp->data == data) {
+		*index = 0;
+		return true;
+	}
+	temp = temp->p_Next;
+
+	int indexx = 1;
+	while (temp != obj->pHead) {
+		
+		if (temp->data == data) {
+			*index = indexx;
+			return true;
+		}
+		indexx++;
+		temp = temp->p_Next;
+	}
 }
 
 
